@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnePennyCoin.Data;
 
 namespace OnePennyCoin.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210307152811_AddEBankingUserPOCO")]
+    partial class AddEBankingUserPOCO
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,37 +227,6 @@ namespace OnePennyCoin.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("OnePennyCoin.Core.Model.Flow", b =>
-                {
-                    b.Property<Guid>("FlowId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CardId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FromAccountId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastRefreshDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ToAccountId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FlowId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Flow");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -305,20 +276,6 @@ namespace OnePennyCoin.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OnePennyCoin.Core.Model.Flow", b =>
-                {
-                    b.HasOne("OnePennyCoin.Core.EBankingUser", "User")
-                        .WithMany("Flows")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OnePennyCoin.Core.EBankingUser", b =>
-                {
-                    b.Navigation("Flows");
                 });
 #pragma warning restore 612, 618
         }

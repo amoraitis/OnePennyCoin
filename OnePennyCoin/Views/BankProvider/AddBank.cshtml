@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Add your bank.</h1>
+    <button class="btn-info" id="btn-create-flow">Add Alpha Bank</button>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var getLink = function ()
+        {
+            $(this).prop("disabled", true);
+            var url = "@ViewData["CreateCallbackWorkflowUrl"]";
+            $.get(url,
+                function(data, status) {
+                    window.location.href = data;
+                });
+        };
+
+        $("#btn-create-flow").click(getLink);
+    </script>
+}

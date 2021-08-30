@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnePennyCoin.Core\OnePennyCoin.Core.csproj" />
+  </ItemGroup>
+
 </Project>

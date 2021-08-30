@@ -1,0 +1,62 @@
+﻿@model OnePennyCoin.Core.AccountData[]
+
+@{
+    ViewData["Title"] = "Accounts";
+}
+<div class="text-center">
+    <h4 class="display-4">Select the account you want to watch for charges.</h4>
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">IBAN</th>
+            <th scope="col">Product Type</th>
+            <th scope="col">Category</th>
+            <th scope="col">Alias</th>
+        </tr>
+        </thead>
+        @foreach (var account in Model)
+        {
+            <tr id="@account.AccountId" class="tr-account">
+                <th scope="row">@account.AccountCode</th>
+                <td>@account.ProductTypeName</td>
+                <td>@account.CategoryName</td>
+                <td>@account.Alias</td>
+            </tr>
+        }
+    </table>
+    <hr/>
+    <div id="transactions">
+
+    </div>
+
+    <div>
+        <h3>Monitor Card:</h3>
+        <select name="card" id="card">
+            @foreach (var card in Model.Where(a => a.Scheme.Equals("Card")))
+            {
+                <option value="@card.AccountId">@card.Alias</option>
+            }
+        </select>
+        <h3>From Account:</h3>
+        <select name="from" id="from"></select>
+
+        <h3>To Account:</h3>
+        <select name="to" id="to"></select>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var getTransactions = function (e)
+        {
+            $(this).prop("disabled", true);
+            var url = "@ViewData["GetTransactionsUrl"]".concat("/").concat($(this).attr("id"));
+            $.get(url,
+                function(data, status) {
+                    $("#transactions").text(data);
+                });
+        };
+
+        $(".tr-account").click(getTransactions);
+    </script>
+}
